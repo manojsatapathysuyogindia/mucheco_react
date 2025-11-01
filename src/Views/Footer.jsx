@@ -148,7 +148,9 @@ function Footer() {
             </div>
         </div>
         {isScroll?(<span className='scrollToTop' onClick={scrollToTop}>scroll to top</span>):(null)}
-    
+  <Link to="https://api.whatsapp.com/send/?phone=447940413389&amp;text&amp;app_absent=0">
+    <div className="whatsapp_btn bg-green-500 w-32 md:w-40 text-center rounded-lg text-white cursor-pointer hover:bg-green-600"><i class="fab fa-whatsapp"></i> Whatsapp</div>
+</Link>
     </footer>
     {/* <!--====== End Footer ======--> */}
 

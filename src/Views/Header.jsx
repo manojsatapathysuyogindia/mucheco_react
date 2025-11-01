@@ -167,7 +167,8 @@ function Header(props) {
                                                     <ul className="extra_sub_menu">
                                                         <li><NavLink to='/inventory-management'>inventory management</NavLink></li>
                                                         <li><NavLink to='/order-management'>order management</NavLink></li>
-                                                        <li><NavLink to='/amazon-store-design-and-optimization'>amazon store design & optimization</NavLink></li>
+                                                        {/* <li><NavLink to='/amazon-services'>amazon store design & optimization</NavLink></li> */}
+                                                        <li><NavLink to='/amazon-services'>amazon services</NavLink></li>
                                                         <li><NavLink to='/ebay-store-design-and-optimization'>eBay store design & optimization</NavLink></li>
                                                     </ul>
                                                 </li>

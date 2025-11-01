@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route, HashRouter, Switch, Layout } from 'react-router-dom';
+import { BrowserRouter, Routes, Route,Navigate, HashRouter, Switch, Layout } from 'react-router-dom';
 import About from '../Views/about/About';
 import WhychooseUs from '../Views/about/WhychooseUs';
 import Ourdeliveryprocess from '../Views/about/Ourdeliveryprocess';
@@ -24,6 +24,7 @@ import Privacy_policy from '../Views/Privacy_policy';
 import Term_of_use from '../Views/Term_of_use';
 import Quality_policy from '../Views/Quality_policy';
 import Disclaimer from '../Views/Disclaimer';
+import ServiceDetailsAmazon from '../Views/ServiceDetailsAmazon';
 
 function Router_app() {
 
@@ -104,7 +105,8 @@ function Router_app() {
           <Route path='/pay-per-click' element={<ServiceDetails type='pay-per-click' />} />
           <Route path='/inventory-management' element={<ServiceDetails type='inventory-management' />} />
           <Route path='/order-management' element={<ServiceDetails type='order-management' />} />
-          <Route path='/amazon-store-design-and-optimization' element={<ServiceDetails type='amazon-store-design-and-optimization' />} />
+          <Route path="/amazon-store-design-and-optimization" element={<Navigate to="/amazon-services" replace />} />
+          <Route path='/amazon-services' element={<ServiceDetailsAmazon type='amazon-services' />} />
           <Route path='/ebay-store-design-and-optimization' element={<ServiceDetails type='ebay-store-design-and-optimization' />} />
 
           <Route path='/consultancy' element={<Consultancy type='consultancy' />} />

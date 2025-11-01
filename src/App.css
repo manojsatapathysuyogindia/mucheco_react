@@ -1768,3 +1768,104 @@ div.faq-accordian-two .card div.card-header a[aria-expanded]::after {
 .brand img {
   max-height: 45px;
 }
+.amazon_service .col-md-2.col-6 .counter_column_inn {
+    display: flex;
+    justify-content: center;
+    background: #fff;
+    padding: 20px;
+    box-shadow: 0px 10px 30px 0px rgba(58, 65, 111, 0.1);
+    min-height: 106px;
+}
+.amazon_service .col-md-2.col-6.counter-column {
+    width: 20%;
+    max-width: 20%;
+        padding: 0 10px;
+            flex: unset;
+}
+.amazon_service .col-md-2.col-6.counter-column h2 {
+font-size: 22px;
+    line-height: 27px;
+    margin-bottom: 3px;
+}
+.amazon_service .col-md-2.col-6.counter-column p {
+       line-height: 18px;
+    font-size: 16px;
+}
+.amazon_service .col-md-2.col-6.counter-column .counter_icon {
+    width: 45px;
+    margin-right: 10px;
+}
+.amazon_service .col-md-2.col-6.counter-column .counter-item {
+    width: calc(100% - 45px);
+}
+.amazon_service .features-area.mb-90-minus {
+    margin-bottom: -54px;
+}
+.amazon_service .service_section_wrapper .block-style-twenty .icon {
+    max-width: 50px;
+    height: 50px;
+    margin-right: 15px;
+}
+.amazon_service .service_section_wrapper.features-area .icon img {
+    width: 32px;
+}
+.amazon_service .service_section_wrapper .block-style-twenty {
+    padding: 25px 20px 20px;
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+    border-radius: 10px;
+}
+.amazon_service .service_section_wrapper .block-style-twenty:hover{
+  background-color:#db1d000a;
+box-shadow: 0 20px 25px -5px #db1d0090, 0 8px 10px -6px #db1d0090;
+}
+.each_service_border {
+    border-left: 4px solid #db1c00;
+    padding-left: 15px;
+}
+.amazon_service .service_section_wrapper .block-style-twenty .text h3 {
+    line-height: 24px;
+    /* text-decoration: underline; */
+    margin-bottom: 0;
+    font-size: 20px;
+}
+.icon_head_wrap.d-flex {
+    align-items: center;
+    margin-bottom: 5px;
+}
+.each_service_border p {
+    max-height: 140px;
+    overflow-y: auto;
+    margin-right: -20px;
+    padding-right: 20px;
+    line-height: 28px;
+}
+.whatsapp_btn {
+    background-color: rgb(34 197 94);
+    padding: 10px 40px;
+    font-size: 18px;
+    position: fixed;
+    bottom: 0;
+    left: 10px;
+    border-radius: 5px 5px 0 0 !important;
+}
+.image-popup.custom_popup .image-popup-inner {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+
+}
+.image-popup.custom_popup .image-popup-inner .popup_inner_content{
+    min-height: 300px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+button.service_readmore {
+    background: unset;
+    margin-top: 5px;
+    font-size: 16px;
+    color: #db1c00;
+    transition: all .3s ease;
+}
+button.service_readmore:hover {
+    color: #000;
+}
