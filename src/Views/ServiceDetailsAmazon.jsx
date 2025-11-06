@@ -226,7 +226,7 @@ function ServiceDetailsAmazon(props) {
                 {/* <!--====== Start About Section ======--> */}
                 <section className="fancy-about fancy-about-five pt-50  pb-80 my_fancy">
                     <div className="container">
-                        <div className="row align-items-center">
+                        <div className="row">
                             <div className="col-lg-7">
                                 <div className="text-wrapper" data-aos="fade-right" data-aos-duration="1000">
                                     <div className="experience-box wow fadeInLeft">
@@ -238,7 +238,7 @@ function ServiceDetailsAmazon(props) {
                                             </div>
 
                                             <blockquote>
-                                            <p id='desc_short'>{detailsData?.data?.readmore?.desc_short}</p>
+                                            <p id='desc_short' dangerouslySetInnerHTML={{__html:detailsData?.data?.readmore?.desc_short}}></p>
                                             <p id='desc_long' dangerouslySetInnerHTML={{__html: detailsData?.data?.readmore?.desc_long}}></p>
                                                 <button onClick={myFunction} id="readmore">Read More <i className="fal fa-long-arrow-right"></i></button>
                                             </blockquote>
@@ -262,7 +262,7 @@ function ServiceDetailsAmazon(props) {
                             </div>
                             <div className="col-lg-5">
                                 <div className="service_details_top_right" data-aos="fade-left" data-aos-duration="1000">
-                                    <img src={require("../image/service_details/amazon_service/img-01 2.jpg")} alt="" />
+                                    <img src={require("../image/service_details/amazon_service/img-6.png")} alt="" />
                                 </div>
 
                             </div>

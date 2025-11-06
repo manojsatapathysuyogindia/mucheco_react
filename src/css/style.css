@@ -7505,3 +7505,15 @@ textarea.form_control{
     End Footer css 
 =========================---*/
 
+#desc_long p,#desc_short p,#desc_short,#desc_long{
+    text-align: justify;
+    hyphens: auto;
+}
+section.features-area.light-gray-bg .text p {
+    text-align: justify;
+    hyphens: auto;
+}
+.fancy-about .service_details_top_right {
+    position: sticky;
+    top: 100px;
+}

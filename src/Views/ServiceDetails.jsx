@@ -196,7 +196,7 @@ function ServiceDetails(props) {
                 {/* <!--====== Start About Section ======--> */}
                 <section className="fancy-about fancy-about-five pt-50 pb-80 my_fancy">
                     <div className="container">
-                        <div className="row align-items-center">
+                        <div className="row">
                             <div className="col-lg-7">
                                 <div className="text-wrapper" data-aos="fade-right" data-aos-duration="1000">
                                     <div className="experience-box wow fadeInLeft">
@@ -208,17 +208,20 @@ function ServiceDetails(props) {
                                             </div>
 
                                             <blockquote>
-                                            <p id='desc_short'>{detailsData?.data?.readmore?.desc_short}</p>
+                                            <p id='desc_short' dangerouslySetInnerHTML={{__html: detailsData?.data?.readmore?.desc_short}}></p>
                                             <p id='desc_long' dangerouslySetInnerHTML={{__html: detailsData?.data?.readmore?.desc_long}}></p>
                                                 <button onClick={myFunction} id="readmore">Read More <i className="fal fa-long-arrow-right"></i></button>
                                             </blockquote>
                                             <ul className="check-list list-circle-bg mb-20 wow fadeInUp absolute_check">
-                                                <li>{detailsData?.data?.readmore?.lis[0]}</li>
+                                                {/* <li>{detailsData?.data?.readmore?.lis[0]}</li>
                                                 <li>{detailsData?.data?.readmore?.lis[1]}</li>
                                                 <li>{detailsData?.data?.readmore?.lis[2]}</li>
                                                 <li>{detailsData?.data?.readmore?.lis[3]} </li>
                                                 <li>{detailsData?.data?.readmore?.lis[4]}</li>
-                                                <li>{detailsData?.data?.readmore?.lis[5]}</li>
+                                                <li>{detailsData?.data?.readmore?.lis[5]}</li> */}
+                                                {detailsData?.data?.readmore?.lis?.map((item, index) => (
+                                                    <li key={index}>{item}</li>
+                                                    ))}
                                             </ul>
                                         </div>
                                     </div>
@@ -401,12 +404,15 @@ function ServiceDetails(props) {
                                     </div>
 
                                     <ul className="check-list list-circle-bg mb-20 wow fadeInUp" data-aos="fade-up" data-aos-duration="1000">
-                                        <li>{detailsData?.data?.why_choose?.lis[0]}</li>
+                                        {/* <li>{detailsData?.data?.why_choose?.lis[0]}</li>
                                         <li>{detailsData?.data?.why_choose?.lis[1]}</li>
                                         <li>{detailsData?.data?.why_choose?.lis[2]}</li>
                                         <li>{detailsData?.data?.why_choose?.lis[3]}</li>
                                         <li>{detailsData?.data?.why_choose?.lis[4]}</li>
-                                        <li>{detailsData?.data?.why_choose?.lis[5]}</li>
+                                        <li>{detailsData?.data?.why_choose?.lis[5]}</li> */}
+                                        {detailsData?.data?.why_choose?.lis?.map((item, index) => (
+                                            <li key={index} dangerouslySetInnerHTML={{__html:item}}></li>
+                                            ))}
                                     </ul>
                                     {/* <a href="about.html" className="main-btn btn-blue-light wow fadeInUp" data-aos="fade-up" data-aos-duration="1000">Learn More</a> */}
                                 </div>
