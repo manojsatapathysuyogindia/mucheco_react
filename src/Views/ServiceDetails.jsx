@@ -16,6 +16,7 @@ function ServiceDetails(props) {
     const api_type = props.type
     const [detailsData, setDetailsData] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [btnLoading, setBtnLoading] = useState(false);
     // contact submit and validation
     const initialValues = { firstname: '', lastname: '', phone: '', email: '', message: '' };
     const [formValues, setFormValues] = useState(initialValues);
@@ -104,14 +105,16 @@ function ServiceDetails(props) {
         };
 
 
-
+        // setLoading(true)
+        setBtnLoading(true)
         fetch(API.CONTACT_US, requestOptions)
         .then(response => response.json())
         .then(json => {setIsSuccess(json)
             setShowMessage(json.status)
+            setBtnLoading(false);
         })
             // .then(response => response.text())
-            .catch(error => console.log('error', error));
+            .catch(error => {console.log('error', error);setBtnLoading(false);});
 
     }
    
@@ -770,7 +773,9 @@ return (<></>);
                                             <div className="col-lg-12">
                                                 <div className="form_group">
                                                     <div className="col-lg-12">
-                                                        <button className="main-btn btn-purple">Get free consultations</button>
+                                                        <button className="main-btn btn-purple" disabled={btnLoading}>
+                                                            {btnLoading ? 'Submitting...' : 'Get free consultations'}
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>

@@ -1,4 +1,4 @@
-import { useState, useLayoutEffect } from 'react';
+import { useState} from 'react';
 import './style.css';
 import { CallApi_Without_Token } from '../../Services/Client';
 import { API } from '../../Services/Apis';
@@ -9,6 +9,7 @@ function Firstcome(props) {
   const [inputData,setinputData]=useState(inputs);
   const [isModalOpen,setIsModalOpen]=useState(true);
   const [errormessage,setErrormessage]=useState({});
+  const [btnLoading, setBtnLoading] = useState(false);
 
 // console.log(sessondata)
 const fetchInfo = async () => {
@@ -18,16 +19,21 @@ const fetchInfo = async () => {
     formdata.append("email", inputData.Email);
     formdata.append("phone", inputData.Phone);
     formdata.append("message", inputData.Message);
+    setBtnLoading(true);
     const data = await CallApi_Without_Token('POST', API.CONTACT_US, formdata)
     // setLoading(false)
+    
     if (data.status === 1) {
         setIsModalOpen(false)
         sessionStorage.setItem('notshowagain',1);
         props.message(1);
+        setBtnLoading(false);
+        setinputData({Name:'',Email:'',Phone:'',Message:''});
     } else {
         setIsModalOpen(true)
         // setErrormessage(data.message)
         setErrormessage(validate(inputData));
+        setBtnLoading(false);
     }
 }
 
@@ -37,6 +43,10 @@ const validate = (values) => {
   const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
   if (!values.Name) {
       errors.name = 'Name is required';
+  }else if (values.Name.length < 3) {
+      errors.name = 'Name must be atleast 3 charecter';
+  }else if (values.Name.length > 20) {
+      errors.name = 'Name must be less than 20 charecter';
   }
   if (!values.Phone) {
       errors.phone = 'Phone is required';
@@ -66,6 +76,14 @@ const validate = (values) => {
   }
   const handleLoginSubmit = (e) => {
     e.preventDefault();
+    const errors = validate(inputData);
+
+    setErrormessage(errors);
+
+    if (Object.keys(errors).length > 0) {
+        return; // ❌ Don't call API
+    }
+
     fetchInfo();
     
   }
@@ -82,7 +100,7 @@ const validate = (values) => {
             </div>
           <form action="" onSubmit={handleLoginSubmit} >
             <h4>Get In Touch</h4>
-            <button className='close_btn' onClick={modalClose} type='submit'><span></span></button>
+            <button className='close_btn' onClick={modalClose} type='button'><span></span></button>
             <div style={{position:'relative'}}>
             {/* <label htmlFor="">Name</label> */}
             <input type="text" name='Name' placeholder='Enter Your Name' value={inputData.Name}
@@ -106,7 +124,7 @@ const validate = (values) => {
               <textarea name="Message" placeholder="Message" value={inputData.Message} onChange={inputHandleChange}></textarea>
               <p className='error'>{errormessage.message}</p>
               </div>
-            <button className='login_submit btn' type='submit'>Submit</button>
+            <button className='login_submit btn' type='submit'>{btnLoading ? 'Submitting...' : 'Submit'}</button>
           </form>
           </div>
         </div>:''}

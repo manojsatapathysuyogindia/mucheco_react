@@ -73,6 +73,10 @@
     border:none;
     cursor: pointer;
   }
+  .login_submit.btn:hover{
+     background: #db1c00;
+     color: #fff;
+  }
   .login_modal .close_btn{
     position: absolute;
     right: 20px;

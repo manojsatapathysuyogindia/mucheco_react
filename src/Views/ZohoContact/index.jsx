@@ -1,7 +1,7 @@
 import React,{useState} from 'react';
 import './Form.css';
 import {country_data} from'../../Constants/CountryCode';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import ReCAPTCHA from "react-google-recaptcha";
 import { API } from '../../Services/Apis';
 
@@ -12,6 +12,7 @@ function ZohoContact() {
   const [formValues, setFormValues] = useState(initialValues);
   const [formErrors, setFormErrors] = useState({});
   const [capchaValues, setCapchaValues] = useState('');
+  const [btnLoading, setBtnLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState()
   const form = document.getElementById('form');
   // console.log(isSuccess,'recapcha success+++++++++++++')
@@ -38,6 +39,7 @@ const onSubmitcheck=(event)=>{
             method: 'POST',
             body: formdata,
         };
+        setBtnLoading(true);
         fetch(API.GOOGLE_RECAPCHA_VERIFY, requestOptions)
         .then(response => response.json())
         .then(json => {
@@ -45,17 +47,21 @@ const onSubmitcheck=(event)=>{
             setIsSuccess('')
             form.submit();
             navigate("/contact");
+            setFormValues(initialValues);
+            setBtnLoading(false);
             // setIsSuccess(json)
            }
            else{
             event.preventDefault();
             setIsSuccess(json?.message)
+            setBtnLoading(false);
            }
         })
             .catch(error =>{
               event.preventDefault();
               setIsSuccess(error);
               console.log('error', error)
+              setBtnLoading(false);
             });
 
     }
@@ -183,7 +189,7 @@ console.log("isSuccess?.message", isSuccess?.message);
   <p className='error capcha_error'>{isSuccess}</p>
               </div>
              
-              <ul><li class="zf-fmFooter"><button class="zf-submitColor main-btn btn-purple" >send message</button></li></ul></div></form></div>
+              <ul><li class="zf-fmFooter"><button class="zf-submitColor main-btn btn-purple" >{btnLoading?'sending message...':'send message'}</button></li></ul></div></form></div>
               </section>
 
         )
