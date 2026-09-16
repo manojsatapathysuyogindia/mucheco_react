@@ -1,4 +1,5 @@
-import { React, useState, useLayoutEffect, useEffect } from 'react';
+import { React, useState, useLayoutEffect, useEffect, useRef } from 'react';
+import ReCAPTCHA from "react-google-recaptcha";
 import Header from './Header';
 import ctabg from "../image/cta-bg-2.jpg";
 import testimonialbg from "../image/testimonial-bg-1.jpg";
@@ -25,6 +26,10 @@ function ServiceDetailsAmazon(props) {
     const [isSubmit, setIsSubmit] = useState(false);
     const [isSuccess, setIsSuccess] = useState({})
     const [showMessage, setShowMessage] = useState(0)
+    const [btnLoading, setBtnLoading] = useState(false);
+    const [capchaValues, setCapchaValues] = useState('');
+    const [capchaError, setCapchaError] = useState('');
+    const recaptchaRef = useRef(null);
     const [testimonialData, setTestimonialData] = useState([]);
     const [fullImgUrl, setFullImgUrl] = useState('');
     // const [start, setStart] = useState(1)
@@ -42,14 +47,6 @@ function ServiceDetailsAmazon(props) {
         fetchInfo();
     }, [api_type])
 
-    useEffect(() => {
-        if (Object.keys(formErrors).length === 0 && isSubmit) {
-            // console.log(formValues);
-            sendData(formValues);
-
-            setFormValues(initialValues);
-        }
-    }, [formErrors]);
 
     useEffect(()=>{
     if(showMessage==1){
@@ -107,13 +104,28 @@ function ServiceDetailsAmazon(props) {
     // onsubmit handler
     const handleSubmit = (e) => {
         e.preventDefault();
-        setFormErrors(validate(formValues));
+        const errors = validate(formValues);
+        setFormErrors(errors);
         setIsSubmit(true);
+        if (!capchaValues) {
+            setCapchaError('Captcha is required');
+            return;
+        }
+        if (Object.keys(errors).length !== 0) return;
+
+        // captcha token is appended to the submit request; backend verifies it
+        setCapchaError('');
+        sendData(formValues, capchaValues);
+    };
+    const onCapchaChange = (value) => {
+        setCapchaValues(value);
+        if (value) setCapchaError('');
     };
     //   send data to backend
-    const sendData = (value) => {
+    const sendData = (value, recaptcha) => {
         var formdata = new FormData();
         formdata.append("request_type", 'service');
+        formdata.append("recaptcha", recaptcha);
         formdata.append("service", detailsData?.data?.readmore?.title);
         formdata.append("first_name", value.firstname);
         formdata.append("last_name", value.lastname);
@@ -128,13 +140,28 @@ function ServiceDetailsAmazon(props) {
 
 
 
+        setBtnLoading(true);
         fetch(API.CONTACT_US, requestOptions)
         .then(response => response.json())
-        .then(json => {setIsSuccess(json)
-            setShowMessage(json.status)
+        .then(json => {
+            if (json?.status == 1) {
+                setIsSuccess(json);
+                setShowMessage(json.status);
+                setFormValues(initialValues);
+            } else {
+                setCapchaError(json?.message || 'Submission failed, please try again');
+            }
+            setBtnLoading(false);
+            recaptchaRef.current?.reset();
+            setCapchaValues('');
         })
-            // .then(response => response.text())
-            .catch(error => console.log('error', error));
+            .catch(error => {
+                console.log('error', error);
+                setCapchaError('Submission failed, please try again');
+                setBtnLoading(false);
+                recaptchaRef.current?.reset();
+                setCapchaValues('');
+            });
 
     }
    
@@ -1047,9 +1074,21 @@ function ServiceDetailsAmazon(props) {
                                                 </div>
                                             </div>
                                             <div className="col-lg-12">
+                                                <div className='zf-tempContDiv'>
+                                                    <ReCAPTCHA
+                                                        ref={recaptchaRef}
+                                                        sitekey="6Lf4b4MqAAAAAHgqJPBdpbnnJbPiI4bEJGrxMTMa"
+                                                        onChange={onCapchaChange}
+                                                    />
+                                                    <p className='error capcha_error'>{capchaError}</p>
+                                                </div>
+                                            </div>
+                                            <div className="col-lg-12">
                                                 <div className="form_group">
                                                     <div className="col-lg-12">
-                                                        <button className="main-btn btn-purple">Get free consultations</button>
+                                                        <button className="main-btn btn-purple" disabled={btnLoading}>
+                                                            {btnLoading ? 'Submitting...' : 'Get free consultations'}
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>

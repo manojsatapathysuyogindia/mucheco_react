@@ -60,6 +60,9 @@
     margin-bottom: 20px;
     padding: 0 10px;
   }
+  .login_modal form textarea{
+    margin-bottom: 20px;
+  }
   .login_modal h4{
     font-size: 30px;
     margin-bottom: 20px;
@@ -144,5 +147,18 @@
   @media only screen and (max-width: 480px){
   .login_modal form {
     width: 100%;
+  }
+}
+
+  .firstcome_capcha {
+    margin-bottom: 15px;
+  }
+  .firstcome_capcha .capcha_error {
+    margin-top: 5px;
+  }
+  @media only screen and (max-width: 360px){
+  .firstcome_capcha > div {
+    transform: scale(0.85);
+    transform-origin: 0 0;
   }
 }

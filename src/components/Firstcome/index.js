@@ -1,4 +1,5 @@
-import { useState} from 'react';
+import { useState, useRef } from 'react';
+import ReCAPTCHA from "react-google-recaptcha";
 import './style.css';
 import { CallApi_Without_Token } from '../../Services/Client';
 import { API } from '../../Services/Apis';
@@ -10,11 +11,15 @@ function Firstcome(props) {
   const [isModalOpen,setIsModalOpen]=useState(true);
   const [errormessage,setErrormessage]=useState({});
   const [btnLoading, setBtnLoading] = useState(false);
+  const [capchaValues, setCapchaValues] = useState('');
+  const [capchaError, setCapchaError] = useState('');
+  const recaptchaRef = useRef(null);
 
 // console.log(sessondata)
 const fetchInfo = async () => {
     var formdata = new FormData();
     formdata.append("request_type", 'get_in_touch');
+    formdata.append("recaptcha", capchaValues);
     formdata.append("first_name", inputData.Name);
     formdata.append("email", inputData.Email);
     formdata.append("phone", inputData.Phone);
@@ -23,7 +28,7 @@ const fetchInfo = async () => {
     const data = await CallApi_Without_Token('POST', API.CONTACT_US, formdata)
     // setLoading(false)
     
-    if (data.status === 1) {
+    if (data?.status === 1) {
         setIsModalOpen(false)
         sessionStorage.setItem('notshowagain',1);
         props.message(1);
@@ -31,10 +36,13 @@ const fetchInfo = async () => {
         setinputData({Name:'',Email:'',Phone:'',Message:''});
     } else {
         setIsModalOpen(true)
-        // setErrormessage(data.message)
         setErrormessage(validate(inputData));
+        setCapchaError(data?.message || 'Submission failed, please try again');
         setBtnLoading(false);
     }
+    // reset the widget so the user must tick it again
+    recaptchaRef.current?.reset();
+    setCapchaValues('');
 }
 
 // validate form
@@ -74,18 +82,27 @@ const validate = (values) => {
   const inputHandleChange = (e) => {
     setinputData({...inputData,[e.target.name]:e.target.value})
   }
+  const onCapchaChange = (value) => {
+    setCapchaValues(value);
+    if (value) setCapchaError('');
+  }
   const handleLoginSubmit = (e) => {
     e.preventDefault();
     const errors = validate(inputData);
 
     setErrormessage(errors);
 
+    if (!capchaValues) {
+        setCapchaError('Captcha is required');
+        return;
+    }
     if (Object.keys(errors).length > 0) {
         return; // ❌ Don't call API
     }
 
+    // captcha token is appended to the submit request; backend verifies it
+    setCapchaError('');
     fetchInfo();
-    
   }
 
   
@@ -124,7 +141,15 @@ const validate = (values) => {
               <textarea name="Message" placeholder="Message" value={inputData.Message} onChange={inputHandleChange}></textarea>
               <p className='error'>{errormessage.message}</p>
               </div>
-            <button className='login_submit btn' type='submit'>{btnLoading ? 'Submitting...' : 'Submit'}</button>
+            <div style={{position:'relative'}} className='firstcome_capcha'>
+              <ReCAPTCHA
+                ref={recaptchaRef}
+                sitekey="6Lf4b4MqAAAAAHgqJPBdpbnnJbPiI4bEJGrxMTMa"
+                onChange={onCapchaChange}
+              />
+              <p className='error capcha_error'>{capchaError}</p>
+            </div>
+            <button className='login_submit btn' type='submit' disabled={btnLoading}>{btnLoading ? 'Submitting...' : 'Submit'}</button>
           </form>
           </div>
         </div>:''}

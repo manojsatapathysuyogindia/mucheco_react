@@ -6851,6 +6851,7 @@ textarea.form_control{
     width: 100%;
     text-align: center;
     justify-content: center;
+    margin-top: 30px;
 }
 
 /* Contact Information css */
